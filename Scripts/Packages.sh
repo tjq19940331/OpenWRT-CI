@@ -31,6 +31,9 @@ UPDATE_PACKAGE "ssr-plus" "fw876/helloworld" "master"
 
 UPDATE_PACKAGE "advancedplus" "VIKINGYFY/luci-app-advancedplus" "main"
 
+UPDATE_PACKAGE "adguardhome" "xptsp/luci-app-adguardhome" "main"
+UPDATE_PACKAGE "lucky" "tjq19940331/luci-app-lucky" "main"
+
 if [[ $WRT_URL != *"lede"* ]]; then
 	UPDATE_PACKAGE "homeproxy" "bulianglin/homeproxy" "master"
 	UPDATE_PACKAGE "mihomo" "morytyann/OpenWrt-mihomo" "main" "pkg"
