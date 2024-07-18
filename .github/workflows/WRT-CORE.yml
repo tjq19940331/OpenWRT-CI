@@ -158,7 +158,15 @@ jobs:
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-
+          
+      - name: 回退ruby到3.2.2
+        run: |
+          cd ./wrt/
+          echo Restore ruby to 3.2.2
+          curl -sfL https://raw.githubusercontent.com/openwrt/packages/4fdce5538f4938613599fc9fa1cf88ac325cf4ab/lang/ruby/Makefile -o feeds/packages/lang/ruby/Makefile
+          curl -sfL https://raw.githubusercontent.com/openwrt/packages/4fdce5538f4938613599fc9fa1cf88ac325cf4ab/lang/ruby/ruby_find_pkgsdeps -o feeds/packages/lang/ruby/ruby_find_pkgsdeps
+          curl -sfL https://raw.githubusercontent.com/openwrt/packages/4fdce5538f4938613599fc9fa1cf88ac325cf4ab/lang/ruby/ruby_missingfiles -o feeds/packages/lang/ruby/ruby_missingfiles
+          
       - name: Custom Packages
         run: |
           cd ./wrt/package/
