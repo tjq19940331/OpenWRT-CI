@@ -46,8 +46,8 @@ if [ -d *"openclash"* ]; then
 	mkdir ./core/ && cd ./core/
 
 	curl -sL -o meta.tar.gz $CORE_MATE && tar -zxf meta.tar.gz && mv -f clash clash_meta && echo "meta done!"
-	curl -sL -o tun.gz $CORE_TUN && gzip -d tun.gz && mv -f tun clash_tun && echo "tun done!"
-	curl -sL -o dev.tar.gz $CORE_DEV && tar -zxf dev.tar.gz && echo "dev done!"
+	#curl -sL -o tun.gz $CORE_TUN && gzip -d tun.gz && mv -f tun clash_tun && echo "tun done!"
+	#curl -sL -o dev.tar.gz $CORE_DEV && tar -zxf dev.tar.gz && echo "dev done!"
 
 	chmod +x ./* && rm -rf ./*.gz
 
@@ -71,4 +71,21 @@ if [ -f "$SP_FILE" ]; then
 	sed -i '/Shadowsocks_NONE/d; /Shadowsocks_Libev/d; /ShadowsocksR/d' $SP_FILE
 
 	cd $PKG_PATCH && echo "ssr-plus has been fixed!"
+fi
+#预置adguardhome内核
+if [ -d *"adguardhome"* ]; then
+        AGH_CORE=$(curl -sL https://api.github.com/repos/AdguardTeam/AdGuardHome/releases/latest | grep /AdGuardHome_linux_${1} | awk -F '"' '{print $4}' | awk 'NR==3')
+	cd ./luci-app-adguardhome/root/
+        mkdir ./usr/bin/AdGuardHome
+	wget -qO- $AGH_CORE | tar xOvz > ./usr/bin/AdGuardHome/AdGuardHome
+        chmod +x ./usr/bin/AdGuardHome/AdGuardHome
+	cd $PKG_PATCH && echo "adguardhome core has been updated!"
+fi
+#预置lucky内核
+if [ -d *"lucky"* ]; then
+        LUCKY_CORE=$(curl -sL https://api.github.com/repos/gdy666/lucky/releases/latest | grep _Linux_arm64${1} | grep /lucky_${1} | awk -F '"' '{print $4}' | awk 'NR==1')
+	cd ./luci-app-lucky/root/
+	wget -qO- $LUCKY_CORE | tar xOvz --wildcards 'lucky' > ./usr/bin/lucky
+        chmod +x ./usr/bin/lucky
+	cd $PKG_PATCH && echo "lucky core has been updated!"
 fi
